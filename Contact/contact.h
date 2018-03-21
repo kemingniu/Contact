@@ -4,6 +4,9 @@
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
+
+#define INIT_NUM 3//init memory
+#define INC_NUM 2//increase memory
 #define NAME_MAX 40
 #define SEX_MAX 20
 #define TEL_MAX 20

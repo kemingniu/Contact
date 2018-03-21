@@ -13,20 +13,45 @@ int  search(pCon pcon, char *name)
 	}
 	return -1;
 }
-void Init_peo(pCon pcon)
+/*void Init_peo(pCon pcon)
 {
 
 	int count = sizeof(pcon->count);
 	pcon->count = 0;
 	memset(pcon->people, 0, count);
+}*/
+
+void Init_peo(pCon pcon)
+{
+	pcon->count = 0;
+	pcon->capacity = INIC_NUM;
+	pcon->people = (struct People*)malloc(sizeof(struct People)*INIC_NUM);
+	memset(pcon->people,0,sizeof(struct People)*INIC_NUM);
+	
 }
 
-void add_peo(pCon pcon) {
-	if (pcon->count == PEO_MAX)
+void Check(pCon pcon)
+{
+	if(pcon->count == pcon->capacity)
 	{
-		printf("ÈËÊýÒÑÂú\n");
-		return;
+		int sz = pcon->capacity + INC_NUM;
+		if(sz < 0)
+		{
+			printf("error memory!\n");
+			return ;
+		}
+		pcon->people = (struct 	People*)realloc(sizeof(struct People)*INC_NUM);
+		pcon->capacity = sz;
 	}
+}
+	
+void add_peo(pCon pcon) {
+// 	if (pcon->count == PEO_MAX)
+// 	{
+// 		printf("ÃˆÃ‹ÃŠÃ½Ã’Ã‘Ã‚Ãº\n");
+// 		return;
+// 	}
+	Check(pcon);
 	printf("please input the name:");
 	scanf("%s", (pcon->people[pcon->count]).name);
 	printf("please input sex:");
@@ -89,7 +114,9 @@ void clear_peo(pCon pcon)
 
 {
 	pcon->count = 0;
-	printf("qingkong success!\n");
+	memset(pcon->people,0,sizeof(struct People)*(pcon->capacity));
+	pcon->capacity = 0;
+	printf("clear success!\n");
 }
 
 void find_peo(pCon pcon)
